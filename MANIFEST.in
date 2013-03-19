@@ -1,0 +1,4 @@
+include README.rst
+include MANIFEST.in
+recursive-include sorl_cropping *.py *.txt *.rst * *.css
+recursive-include sorl_cropping/static *.py *.txt *.rst * *.css
