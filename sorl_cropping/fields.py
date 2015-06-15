@@ -52,17 +52,18 @@ class ImageRatioField(models.CharField):
                  allow_fullsize=False, verbose_name=None,
                  help_text=None, hide_image_field=False,
                  size_warning=getattr(
-                     settings, 'SORL_CROPPING_SIZE_WARNING', False)):
+                     settings, 'SORL_CROPPING_SIZE_WARNING', False), max_length=255, blank=True):
         if '__' in image_field:
             self.image_field, self.image_fk_field = image_field.split('__')
         else:
             self.image_field, self.image_fk_field = image_field, None
+        self.size = size
         self.width, self.height = size.split('x')
         self.adapt_rotation = adapt_rotation
         self.allow_fullsize = allow_fullsize
         self.size_warning = size_warning
         self.hide_image_field = hide_image_field
-        super(ImageRatioField, self).__init__(max_length=255, blank=True, verbose_name=verbose_name,
+        super(ImageRatioField, self).__init__(max_length=max_length, blank=blank, verbose_name=verbose_name,
                                               help_text=help_text)
 
     def contribute_to_class(self, cls, name):
@@ -99,3 +100,13 @@ class ImageRatioField(models.CharField):
         field_class = "django.db.models.fields.CharField"
         args, kwargs = introspector(self)
         return field_class, args, kwargs
+
+    # support django >= 1.7
+    def deconstruct(self):
+        name, path, args, kwargs = super(ImageRatioField, self).deconstruct()
+        if self.image_field:
+            kwargs['image_field'] = self.image_field
+        if self.size:
+            kwargs['size'] = self.size
+        return name, path, args, kwargs
+
