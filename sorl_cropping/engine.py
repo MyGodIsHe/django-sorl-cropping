@@ -26,7 +26,7 @@ def crop_corners(image, options):
             values = crop.split(',')
             if len(values) != 4:
                 return image
-            values = map(int, values)
+            values = list(map(int, values))
             if sum(values) < 0:
                 return image
             width = abs(values[2] - values[0])
