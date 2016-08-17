@@ -2,10 +2,17 @@ import logging
 import inspect
 import warnings
 
-from django.db.models import get_model, ObjectDoesNotExist
+from django.db.models import ObjectDoesNotExist
 from django.contrib.admin.widgets import AdminFileWidget, ForeignKeyRawIdWidget
 from django.conf import settings
 from sorl.thumbnail import get_thumbnail, default
+
+try:
+    # Django >= 1.9
+    from django.apps import apps
+    get_model = apps.get_model
+except ImportError:
+    from django.db.models import get_model
 
 logger = logging.getLogger(__name__)
 
