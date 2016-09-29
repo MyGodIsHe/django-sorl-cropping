@@ -15,7 +15,7 @@ cropped image in your templates.
 
 Screenshot: 
 
-.. image:: http://www.jonasundderwolf.de/media/uploads/judw_logo.png
+.. image:: http://www.jonasundderwolf.de/media/images/django_image_cropping_example.png
 
 Installation
 ------------
